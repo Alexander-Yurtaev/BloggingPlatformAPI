@@ -1,0 +1,6 @@
+@BloggingPlatformAPI.MinimalApi_HostAddress = http://localhost:5260
+
+GET {{BloggingPlatformAPI.MinimalApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
