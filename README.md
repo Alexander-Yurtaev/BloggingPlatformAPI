@@ -6,6 +6,17 @@
 Статус: в разработке
 
 RESTful API для персональной платформы ведения блога.
+
+Внимание!!!
+Отслеживание изменений у файла postgres-password.txt отключено командой
+```bash
+git update-index --skip-worktree postgres-password.txt
+```
+
+Чтобы включить отслеживание используйте команду
+```bash
+git update-index --no-skip-worktree postgres-password.txt
+```
 ********************************
 Name: BloggingPlatformAPI
 Level: Beginner/Intermediate/Advanced
@@ -15,3 +26,14 @@ Source: [BloggingPlatformAPI](https://roadmap.sh/projects/blogging-platform-api)
 Stage: In process
 
 A RESTful API for a personal blogging platform.
+
+Attention!!!
+Tracking changes in the postgres-password file.txt is disabled by the command
+```bash
+git update-index --skip-worktree postgres-password.txt
+```
+
+To enable tracking, use the command
+```bash
+git update-index --no-skip-worktree postgres-password.txt
+```
