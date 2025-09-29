@@ -6,7 +6,7 @@ services:
     environment:
       POSTGRES_USER: postgres  # Имя пользователя
       POSTGRES_PASSWORD_FILE: /run/secrets/postgres-password  # Ссылка на секрет
-      POSTGRES_DB: mydatabase  # Имя базы данных
+      POSTGRES_DB: blog_platform  # Имя базы данных
     volumes:
       - postgres_data:/var/lib/postgresql/data  # Персистентное хранилище
     secrets:

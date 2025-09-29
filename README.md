@@ -17,6 +17,10 @@ git update-index --skip-worktree postgres-password.txt
 ```bash
 git update-index --no-skip-worktree postgres-password.txt
 ```
+
+```shell
+dotnet ef database update --connection "Host=localhost;Port=5432;Database=<databasename>;Username=postgres;Password=<password>"
+```
 ********************************
 Name: BloggingPlatformAPI
 Level: Beginner/Intermediate/Advanced
@@ -36,4 +40,8 @@ git update-index --skip-worktree postgres-password.txt
 To enable tracking, use the command
 ```bash
 git update-index --no-skip-worktree postgres-password.txt
+```
+
+```shell
+dotnet ef database update --connection "Host=localhost;Port=5432;Database=<databasename>;Username=postgres;Password=<password>"
 ```

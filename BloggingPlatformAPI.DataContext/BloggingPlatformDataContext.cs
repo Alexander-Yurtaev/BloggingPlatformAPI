@@ -16,7 +16,7 @@ public class BloggingPlatformDataContext : DbContext
     {
     }
 
-    public DbSet<IEnumerable<Post>> Posts { get; set; }
+    public DbSet<Post> Posts { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -26,7 +26,7 @@ public class BloggingPlatformDataContext : DbContext
 
             builder.Host = "localhost"; // или IP-адрес
             builder.Port = 5432; // порт по умолчанию для PostgreSQL
-            builder.Database = "your_database_name";
+            builder.Database = "blog_platform";
             builder.Username = Environment.GetEnvironmentVariable("POSTGRES_USER");
             builder.Password = Environment.GetEnvironmentVariable("POSTGRES_PASSWORD");
             builder.CommandTimeout = 30; // таймаут выполнения команд
