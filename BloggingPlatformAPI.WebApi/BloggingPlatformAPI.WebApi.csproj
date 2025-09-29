@@ -11,6 +11,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\BloggingPlatformAPI.DataContext\BloggingPlatformAPI.DataContext.csproj" />
 	  <ProjectReference Include="..\BloggingPlatformAPI.Shared\BloggingPlatformAPI.Shared.csproj" />
 	</ItemGroup>
 

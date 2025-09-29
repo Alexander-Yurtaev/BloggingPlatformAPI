@@ -1,4 +1,5 @@
 
+using BloggingPlatformAPI.DataContext;
 using Microsoft.OpenApi.Models;
 
 namespace BloggingPlatformAPI.WebApi
@@ -18,6 +19,8 @@ namespace BloggingPlatformAPI.WebApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
             });
+
+            builder.Services.AddBloggingPlatformDataContext();
 
             var app = builder.Build();
 
