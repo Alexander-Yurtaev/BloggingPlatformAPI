@@ -1,5 +1,6 @@
 
 using BloggingPlatformAPI.DataContext;
+using BloggingPlatformAPI.Repositories;
 using Microsoft.OpenApi.Models;
 
 namespace BloggingPlatformAPI.MinimalApi
@@ -20,6 +21,7 @@ namespace BloggingPlatformAPI.MinimalApi
             });
 
             builder.Services.AddBloggingPlatformDataContext();
+            builder.Services.AddScoped<IRepository, Repository>();
 
             var app = builder.Build();
 

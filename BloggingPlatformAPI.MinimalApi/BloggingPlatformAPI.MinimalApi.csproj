@@ -12,7 +12,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\BloggingPlatformAPI.DataContext\BloggingPlatformAPI.DataContext.csproj" />
-      <ProjectReference Include="..\BloggingPlatformAPI.Shared\BloggingPlatformAPI.Shared.csproj" />
+      <ProjectReference Include="..\BloggingPlatformAPI.Repositories\BloggingPlatformAPI.Repositories.csproj" />
+      <ProjectReference Include="..\BloggingPlatformAPI.EntityModels\BloggingPlatformAPI.EntityModels.csproj" />
     </ItemGroup>
 
 </Project>

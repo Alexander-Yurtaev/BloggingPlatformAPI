@@ -1,4 +1,4 @@
-﻿using BloggingPlatformAPI.Shared.Models;
+﻿using BloggingPlatformAPI.EntityModels;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 

@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace BloggingPlatformAPI.Shared.Models;
+namespace BloggingPlatformAPI.EntityModels;
 
 public class Post
 {
