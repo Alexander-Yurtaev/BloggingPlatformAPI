@@ -1,17 +1,16 @@
 ﻿using BloggingPlatformAPI.DataContext;
 using BloggingPlatformAPI.EntityModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace BloggingPlatformAPI.Repositories;
 
 public class Repository : IRepository
 {
     private readonly BloggingPlatformDataContext _dbContext;
-    private readonly IRepositoryUtils _repositoryUtils;
 
-    public Repository(BloggingPlatformDataContext dbContext, IRepositoryUtils repositoryUtils)
+    public Repository(BloggingPlatformDataContext dbContext)
     {
         _dbContext = dbContext;
-        _repositoryUtils = repositoryUtils;
     }
 
     public async Task<Post> Create(Post post)
@@ -20,7 +19,7 @@ public class Repository : IRepository
 
         if (post.Id > 0)
         {
-            var postIsExists = _repositoryUtils.Any(_dbContext.Posts, p => p.Id == post.Id);
+            var postIsExists = _dbContext.Posts.Any(p => p.Id == post.Id);
             if (postIsExists)
             {
                 throw new ArgumentException($"Post with Id = {post.Id} is exists.");
@@ -55,11 +54,31 @@ public class Repository : IRepository
 
     public async Task<IEnumerable<Post>> GetAll()
     {
-        throw new NotImplementedException();
+        var posts = await _dbContext.Posts.ToListAsync();
+        return posts;
     }
 
-    public async Task<Post> Get(int id, string? term = null)
+    public async Task<Post> GetById(int id)
     {
-        throw new NotImplementedException();
+        if (id <= 0)
+        {
+            throw new ArgumentException("The id must be great than 0.");
+        }
+
+        Post post = await _dbContext.Posts.FirstAsync(p => p.Id == id);
+        return post;
+    }
+
+    public async Task<IEnumerable<Post>> Find(string term)
+    {
+        if (string.IsNullOrEmpty(term))
+        {
+            throw new ArgumentOutOfRangeException("The term value is not specified.");
+        }
+
+        IEnumerable<Post> posts = await _dbContext.Posts
+            .Where(p => string.IsNullOrEmpty(term) || (p.Title.Contains(term) || p.Content.Contains(term) || p.Tags.Contains(term)))
+            .ToListAsync();
+        return posts;
     }
 }

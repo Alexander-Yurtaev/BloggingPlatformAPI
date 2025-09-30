@@ -8,5 +8,6 @@ public interface IRepository
     Task<Post> Update(int id, Post post);
     Task Delete(int id);
     Task<IEnumerable<Post>> GetAll();
-    Task<Post> Get(int id, string? term = null);
+    Task<Post> GetById(int id);
+    Task<IEnumerable<Post>> Find(string term);
 }
