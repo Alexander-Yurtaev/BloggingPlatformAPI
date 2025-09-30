@@ -4,9 +4,9 @@ namespace BloggingPlatformAPI.Repositories;
 
 public interface IRepository
 {
-    Post Create(Post post);
-    Post Update(int id, Post post);
-    void Delete(int id);
-    IEnumerable<Post> GetAll();
-    Post Get(int id, string? term = null);
+    Task<Post> Create(Post post);
+    Task<Post> Update(int id, Post post);
+    Task Delete(int id);
+    Task<IEnumerable<Post>> GetAll();
+    Task<Post> Get(int id, string? term = null);
 }

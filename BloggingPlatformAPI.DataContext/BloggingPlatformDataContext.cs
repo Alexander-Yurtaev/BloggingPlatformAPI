@@ -16,7 +16,7 @@ public class BloggingPlatformDataContext : DbContext
     {
     }
 
-    public DbSet<Post> Posts { get; set; }
+    public virtual DbSet<Post> Posts { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
