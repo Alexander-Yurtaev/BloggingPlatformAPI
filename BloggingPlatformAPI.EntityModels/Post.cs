@@ -16,6 +16,9 @@ public class Post
     // Содержание поста
     public string Content { get; set; } = null!;
 
+    // Флаг удаления записи
+    public bool IsDeleted { get; set; }
+
     // Категория
     [StringLength(100)]
     public string? Category { get; set; }
@@ -30,11 +33,15 @@ public class Post
     // Дата последнего обновления
     public DateTimeOffset UpdatedAt { get; set; }
 
+    // Дата удаления
+    public DateTimeOffset DeletedAt { get; set; }
+
     // Конструктор по умолчанию
     public Post()
     {
         CreatedAt = DateTimeOffset.UtcNow;
         UpdatedAt = DateTimeOffset.UtcNow;
+        DeletedAt = DateTimeOffset.UtcNow;
     }
 
     // Перегрузка конструктора
@@ -46,6 +53,7 @@ public class Post
         Tags = tags;
         CreatedAt = DateTimeOffset.UtcNow;
         UpdatedAt = DateTimeOffset.UtcNow;
+        DeletedAt = DateTimeOffset.UtcNow;
     }
 }
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using BloggingPlatformAPI.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BloggingPlatformAPI.DataContext.Migrations
 {
     [DbContext(typeof(BloggingPlatformDataContext))]
-    partial class BloggingPlatformDataContextModelSnapshot : ModelSnapshot
+    [Migration("20251001103114_add_is_deleted_column_to_posts")]
+    partial class add_is_deleted_column_to_posts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
