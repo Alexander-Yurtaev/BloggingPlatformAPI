@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using BloggingPlatformAPI.DataContext;
 using BloggingPlatformAPI.EntityModels;
+using BloggingPlatformAPI.Repositories.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace BloggingPlatformAPI.Repositories;
@@ -83,7 +84,24 @@ public class Repository : IRepository
 
     public async Task Delete(int id)
     {
-        throw new NotImplementedException();
+        if (id <= 0)
+        {
+            throw new ArgumentException("Id must be greater than 0.");
+        }
+
+        var post = await _dbContext.Posts.FindAsync(id);
+        if (post is null)
+        {
+            throw new NotFoundException($"Post with Id={id} not found.");
+        }
+
+        if (post.IsDeleted)
+        {
+            throw new ConflictException($"Post with Id={id} has been deleted.");
+        }
+
+        post.IsDeleted = true;
+        await _dbContext.SaveChangesAsync();
     }
 
     public async Task<IEnumerable<Post>> GetAll()
