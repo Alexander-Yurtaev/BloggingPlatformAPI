@@ -1,5 +1,6 @@
 ﻿using BloggingPlatformAPI.EntityModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Npgsql;
 
 namespace BloggingPlatformAPI.DataContext;
@@ -16,7 +17,7 @@ public class BloggingPlatformDataContext : DbContext
     {
     }
 
-    public virtual DbSet<Post> Posts { get; set; }
+    public DbSet<Post> Posts { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -32,6 +33,30 @@ public class BloggingPlatformDataContext : DbContext
             builder.CommandTimeout = 30; // таймаут выполнения команд
 
             optionsBuilder.UseNpgsql(builder.ConnectionString);
+        }
+    }
+
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+    {
+        UpdateTimestamps();
+        return base.SaveChangesAsync(cancellationToken);
+    }
+
+    private void UpdateTimestamps()
+    {
+        var now = DateTimeOffset.UtcNow;
+
+        // Обновляем CreatedAt для новых записей
+        foreach (EntityEntry<Post> entityEntry in ChangeTracker.Entries<Post>().Where(p => p.State == EntityState.Added))
+        {
+            entityEntry.Entity.CreatedAt = now;
+            entityEntry.Entity.UpdatedAt = now;
+        }
+
+        // Обновляем UpdatedAt для измененных записей
+        foreach (EntityEntry<Post> entityEntry in ChangeTracker.Entries<Post>().Where(p => p.State == EntityState.Modified))
+        {
+            entityEntry.Entity.UpdatedAt = now;
         }
     }
 }

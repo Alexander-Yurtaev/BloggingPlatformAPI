@@ -1,4 +1,5 @@
-﻿using BloggingPlatformAPI.DataContext;
+﻿using System.Data;
+using BloggingPlatformAPI.DataContext;
 using BloggingPlatformAPI.EntityModels;
 using Microsoft.EntityFrameworkCore;
 
@@ -42,9 +43,42 @@ public class Repository : IRepository
         return post;
     }
 
-    public async Task<Post> Update(int id, Post post)
+    public async Task<Post> Update(int id, Post updatedPost)
     {
-        throw new NotImplementedException();
+        ArgumentNullException.ThrowIfNull(updatedPost);
+
+        if (id <= 0)
+        {
+            throw new ArgumentException("The id must be greater than 0.");
+        }
+
+        var post = await _dbContext.Posts.FirstOrDefaultAsync(p => p.Id == id);
+        if (post is null)
+        {
+            throw new ArgumentException($"Post with Id = {id} not found.");
+        }
+
+        if (string.IsNullOrEmpty(updatedPost.Title))
+        {
+            throw new InvalidDataException("Post must have a title.");
+        }
+
+        if (string.IsNullOrEmpty(updatedPost.Content))
+        {
+            throw new InvalidDataException("Post must have a content.");
+        }
+
+        if (updatedPost.Tags.Contains(null))
+        {
+            throw new NoNullAllowedException("Tag must not contains null.");
+        }
+
+        post.Title = updatedPost.Title;
+        post.Content = updatedPost.Content;
+
+        await _dbContext.SaveChangesAsync();
+
+        return post;
     }
 
     public async Task Delete(int id)
