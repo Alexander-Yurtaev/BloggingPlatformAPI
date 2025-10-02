@@ -13,6 +13,12 @@ RESTful API для персональной платформы ведения б
 - Получить все записи в блоге
 - Фильтровать записи в блоге по поисковому запросу
 
+Чтобы развернуть проект необходимо
+- открыть консоль в корне солюшена
+- чтобы развернуть Postgres выполнить команду `docker compose -f /postgres/docker-compose.yml up -d`
+- чтобы создать БД выполнить команду `dotnet ef database update --connection "Host=localhost;Port=5432;Database=blog_platform;Username=postgres;Password=postgres-p@ssw0rd" --project "./BloggingPlatformAPI.DataContext/BloggingPlatformAPI.DataContext.csproj" --context "BloggingPlatformDataContext"`
+- запустите один из проектов: BloggingPlatformAPI.MinimalApi или BloggingPlatformAPI.WebApi
+
 **Внимание!!!**
 Отслеживание изменений у файла postgres-password.txt отключено командой
 ```bash
@@ -22,10 +28,6 @@ git update-index --skip-worktree postgres-password.txt
 Чтобы включить отслеживание используйте команду
 ```bash
 git update-index --no-skip-worktree postgres-password.txt
-```
-
-```shell
-dotnet ef database update --connection "Host=localhost;Port=5432;Database=<databasename>;Username=postgres;Password=<password>"
 ```
 ********************************
 Name: BloggingPlatformAPI
@@ -43,6 +45,12 @@ A RESTful API for a personal blogging platform. The API allow users to perform t
 - Get all blog posts
 - Filter blog posts by a search term
 
+To deploy a project, you must
+- open the console in the root of the solution
+- to deploy Postgres, run the command 'docker compose-f/postgres / docker-compose.yml up-d`
+- to create a database, run the command `dotnet ef database update --connection "Host=localhost;Port=5432;Database=blog_platform;Username=postgres;Password=postgres-p@ssw0rd" --project "./BloggingPlatformAPI.DataContext/BloggingPlatformAPI.DataContext.csproj" --context "BloggingPlatformDataContext"`
+- launch one of the projects: BloggingPlatformAPI.MinimalApi or BloggingPlatformAPI.WebAPI
+
 **Attention!!!**
 Tracking changes in the postgres-password file.txt is disabled by the command
 ```bash
@@ -52,8 +60,4 @@ git update-index --skip-worktree postgres-password.txt
 To enable tracking, use the command
 ```bash
 git update-index --no-skip-worktree postgres-password.txt
-```
-
-```shell
-dotnet ef database update --connection "Host=localhost;Port=5432;Database=<databasename>;Username=postgres;Password=<password>"
 ```
