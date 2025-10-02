@@ -16,5 +16,16 @@
             <param name="app"></param>
             <param name="logger"></param>
         </member>
+        <member name="T:BloggingPlatformAPI.MinimalApi.Program">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:BloggingPlatformAPI.MinimalApi.Program.Main(System.String[])">
+            <summary>
+            
+            </summary>
+            <param name="args"></param>
+        </member>
     </members>
 </doc>

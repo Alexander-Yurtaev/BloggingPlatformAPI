@@ -7,8 +7,15 @@ using Serilog.Events;
 
 namespace BloggingPlatformAPI.WebApi
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="args"></param>
         public static void Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
@@ -19,44 +26,55 @@ namespace BloggingPlatformAPI.WebApi
                 .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day)
                 .CreateLogger();
 
-            var builder = WebApplication.CreateBuilder(args);
-
-            // Добавляем Serilog в хост
-            builder.Host.UseSerilog();
-
-            // Add services to the container.
-
-            builder.Services.AddControllers();
-
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen(c =>
+            try
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+                var builder = WebApplication.CreateBuilder(args);
 
-                var filePath = Path.Combine(System.AppContext.BaseDirectory, "MyApi.xml");
-                c.IncludeXmlComments(filePath);
-            });
+                // Добавляем Serilog в хост
+                builder.Host.UseSerilog();
 
-            builder.Services.AddBloggingPlatformDataContext();
-            builder.Services.AddScoped<IRepository, Repository>();
+                // Add services to the container.
 
-            var app = builder.Build();
+                builder.Services.AddControllers();
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                builder.Services.AddEndpointsApiExplorer();
+                builder.Services.AddSwaggerGen(c =>
+                {
+                    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+
+                    var filePath = Path.Combine(AppContext.BaseDirectory, "MyApi.xml");
+                    c.IncludeXmlComments(filePath);
+                });
+
+                builder.Services.AddBloggingPlatformDataContext();
+                builder.Services.AddScoped<IRepository, Repository>();
+
+                var app = builder.Build();
+
+                // Configure the HTTP request pipeline.
+                if (app.Environment.IsDevelopment())
+                {
+                    app.UseSwagger();
+                    app.UseSwaggerUI();
+                }
+
+                app.UseHttpsRedirection();
+
+                app.UseAuthorization();
+
+                app.MapControllers();
+
+                app.Run();
             }
-
-            app.UseHttpsRedirection();
-
-            app.UseAuthorization();
-
-
-            app.MapControllers();
-
-            app.Run();
+            catch (Exception e)
+            {
+                Log.Fatal(e.Message);
+                throw;
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
         }
     }
 }

@@ -7,8 +7,15 @@ using Serilog.Events;
 
 namespace BloggingPlatformAPI.MinimalApi
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="args"></param>
         public static void Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
