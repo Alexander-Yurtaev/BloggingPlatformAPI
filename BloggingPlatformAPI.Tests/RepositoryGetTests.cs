@@ -141,7 +141,7 @@ public class RepositoryGetTests : RepositoryBaseTests
         // Arrange
 
         // Act & Assert
-        await Assert.ThrowsAsync<InvalidOperationException>(async () =>
+        await Assert.ThrowsAsync<NotFoundException>(async () =>
         {
             await Repository.GetById(Random.Shared.Next(1, 500));
         });

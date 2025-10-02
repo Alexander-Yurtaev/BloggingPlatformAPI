@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using BloggingPlatformAPI.Repositories.Exceptions;
+using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Diagnostics;
@@ -51,7 +52,7 @@ public class RepositoryUpdateTests : RepositoryBaseTests
         var post = CreatePost(CreatePostType.Simple);
 
         // Act & Assert
-        await Assert.ThrowsAsync<ArgumentException>(async () =>
+        await Assert.ThrowsAsync<NotFoundException>(async () =>
         {
             await Repository.Update(1, post);
         });
