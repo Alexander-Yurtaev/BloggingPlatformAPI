@@ -2,6 +2,8 @@
 using BloggingPlatformAPI.EntityModels;
 using BloggingPlatformAPI.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Moq;
 
 namespace BloggingPlatformAPI.Tests;
 
@@ -19,7 +21,7 @@ public abstract class RepositoryBaseTests
 
         // Создаем контекст и репозиторий
         DbContext = new BloggingPlatformDataContext(options);
-        Repository = new Repository(DbContext);
+        Repository = new Repository(DbContext, new Mock<ILogger<Repository>>().Object);
     }
 
     #region Private Methods

@@ -1,6 +1,8 @@
 ﻿using BloggingPlatformAPI.EntityModels;
 using BloggingPlatformAPI.Repositories;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
+using Moq;
 
 namespace BloggingPlatformAPI.Tests;
 
@@ -12,7 +14,7 @@ public class RepositoryCreateTests : RepositoryBaseTests
         // Arrange
         var post = CreatePost(CreatePostType.Simple);
 
-        var repository = new Repository(DbContext);
+        var repository = new Repository(DbContext, new Mock<ILogger<Repository>>().Object);
 
         // Act
         var savedPost = await repository.Create(post);

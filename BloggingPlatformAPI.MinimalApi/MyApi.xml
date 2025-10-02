@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BloggingPlatformAPI.MinimalApi</name>
+    </assembly>
+    <members>
+        <member name="T:BloggingPlatformAPI.MinimalApi.MapGets.BlogMapGet">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:BloggingPlatformAPI.MinimalApi.MapGets.BlogMapGet.AddBlogMapGets(Microsoft.AspNetCore.Builder.WebApplication,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            
+            </summary>
+            <param name="app"></param>
+            <param name="logger"></param>
+        </member>
+    </members>
+</doc>

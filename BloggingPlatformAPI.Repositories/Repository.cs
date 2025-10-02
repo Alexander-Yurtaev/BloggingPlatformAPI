@@ -1,18 +1,21 @@
-﻿using System.Data;
-using BloggingPlatformAPI.DataContext;
+﻿using BloggingPlatformAPI.DataContext;
 using BloggingPlatformAPI.EntityModels;
 using BloggingPlatformAPI.Repositories.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System.Data;
 
 namespace BloggingPlatformAPI.Repositories;
 
 public class Repository : IRepository
 {
     private readonly BloggingPlatformDataContext _dbContext;
+    private readonly ILogger<Repository> _logger;
 
-    public Repository(BloggingPlatformDataContext dbContext)
+    public Repository(BloggingPlatformDataContext dbContext, ILogger<Repository> logger)
     {
         _dbContext = dbContext;
+        _logger = logger;
     }
 
     /// <summary>
@@ -30,17 +33,20 @@ public class Repository : IRepository
             var postIsExists = _dbContext.Posts.Any(p => p.Id == post.Id);
             if (postIsExists)
             {
+                _logger.LogError($"Post with Id = {post.Id} is exists.");
                 throw new ArgumentException($"Post with Id = {post.Id} is exists.");
             }
         }
 
         if (string.IsNullOrEmpty(post.Title))
         {
+            _logger.LogError("Post must have a title.");
             throw new ArgumentException("Post must have a title.");
         }
 
         if (string.IsNullOrEmpty(post.Content))
         {
+            _logger.LogError("Post must have a content.");
             throw new ArgumentException("Post must have a content.");
         }
 

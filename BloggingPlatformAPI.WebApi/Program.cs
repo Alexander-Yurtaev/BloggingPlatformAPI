@@ -2,6 +2,8 @@
 using BloggingPlatformAPI.DataContext;
 using BloggingPlatformAPI.Repositories;
 using Microsoft.OpenApi.Models;
+using Serilog;
+using Serilog.Events;
 
 namespace BloggingPlatformAPI.WebApi
 {
@@ -9,7 +11,18 @@ namespace BloggingPlatformAPI.WebApi
     {
         public static void Main(string[] args)
         {
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day)
+                .CreateLogger();
+
             var builder = WebApplication.CreateBuilder(args);
+
+            // Добавляем Serilog в хост
+            builder.Host.UseSerilog();
 
             // Add services to the container.
 

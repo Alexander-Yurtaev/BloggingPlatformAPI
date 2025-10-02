@@ -8,8 +8,15 @@
     <DocumentationFile>MyApi.xml</DocumentationFile>
   </PropertyGroup>
 
-	<ItemGroup>
+	<ItemGroup>	        
 		<PackageReference Include="Swashbuckle.AspNetCore" />
+	</ItemGroup>
+
+	<ItemGroup Label="Logging">
+		<PackageReference Include="Serilog" />
+		<PackageReference Include="Serilog.AspNetCore" />
+		<PackageReference Include="Serilog.Sinks.Console" />
+		<PackageReference Include="Serilog.Sinks.File" />
 	</ItemGroup>
 
 	<ItemGroup>

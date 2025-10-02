@@ -4,11 +4,20 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <DocumentationFile>MyApi.xml</DocumentationFile>
   </PropertyGroup>
 
-    <ItemGroup>
+    <ItemGroup Label="Swagger">
 	    <PackageReference Include="Swashbuckle.AspNetCore" />
     </ItemGroup>
+
+	<ItemGroup Label="Logging">
+		<PackageReference Include="Serilog" />
+		<PackageReference Include="Serilog.AspNetCore" />
+		<PackageReference Include="Serilog.Sinks.Console" />
+		<PackageReference Include="Serilog.Sinks.File" />
+	</ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\BloggingPlatformAPI.DataContext\BloggingPlatformAPI.DataContext.csproj" />

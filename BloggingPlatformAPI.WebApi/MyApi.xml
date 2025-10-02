@@ -9,6 +9,13 @@
             
             </summary>
         </member>
+        <member name="M:BloggingPlatformAPI.WebApi.Controllers.BlogController.#ctor(Microsoft.Extensions.Logging.ILogger{BloggingPlatformAPI.WebApi.Controllers.BlogController},BloggingPlatformAPI.Repositories.IRepository)">
+            <summary>
+            
+            </summary>
+            <param name="logger"></param>
+            <param name="repository"></param>
+        </member>
         <member name="M:BloggingPlatformAPI.WebApi.Controllers.BlogController.Create(BloggingPlatformAPI.EntityModels.Post)">
             <summary>
             Create a new post
@@ -33,7 +40,7 @@
         </member>
         <member name="M:BloggingPlatformAPI.WebApi.Controllers.BlogController.GetAll">
             <summary>
-            Get all posts
+            Get all non-deleted posts
             </summary>
             <returns></returns>
         </member>

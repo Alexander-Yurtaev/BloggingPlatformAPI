@@ -16,6 +16,11 @@ namespace BloggingPlatformAPI.WebApi.Controllers
         private readonly ILogger<BlogController> _logger;
         private readonly IRepository _repository;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="logger"></param>
+        /// <param name="repository"></param>
         public BlogController(ILogger<BlogController> logger, IRepository repository)
         {
             _logger = logger;
@@ -42,6 +47,7 @@ namespace BloggingPlatformAPI.WebApi.Controllers
             }
             catch (Exception ex) when (ex is ArgumentException || ex is ArgumentNullException)
             {
+                _logger.LogError(ex.Message);
                 return BadRequest(ex.Message);
             }
         }
@@ -66,18 +72,22 @@ namespace BloggingPlatformAPI.WebApi.Controllers
             }
             catch (Exception ex) when (ex is ArgumentException or InvalidDataException or NoNullAllowedException)
             {
+                _logger.LogError(ex.Message);
                 return BadRequest(ex.Message);
             }
             catch (Exception ex) when (ex is NotFoundException)
             {
+                _logger.LogError(ex.Message);
                 return NotFound(ex.Message);
             }
             catch (Exception ex) when (ex is ConflictException)
             {
+                _logger.LogError(ex.Message);
                 return Conflict(ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return BadRequest(ex.Message);
             }
         }
@@ -101,20 +111,23 @@ namespace BloggingPlatformAPI.WebApi.Controllers
             }
             catch (Exception ex) when (ex is ArgumentException)
             {
+                _logger.LogError(ex.Message);
                 return BadRequest(ex.Message);
             }
             catch (Exception ex) when (ex is ConflictException)
             {
+                _logger.LogError(ex.Message);
                 return Conflict(ex.Message);
             }
             catch (Exception ex) when (ex is NotFoundException)
             {
+                _logger.LogError(ex.Message);
                 return NotFound(ex.Message);
             }
         }
 
         /// <summary>
-        /// Get all posts
+        /// Get all non-deleted posts
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -129,6 +142,7 @@ namespace BloggingPlatformAPI.WebApi.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
@@ -151,10 +165,12 @@ namespace BloggingPlatformAPI.WebApi.Controllers
             }
             catch (NotFoundException ex)
             {
+                _logger.LogError(ex.Message);
                 return NotFound(ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
@@ -176,6 +192,7 @@ namespace BloggingPlatformAPI.WebApi.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
