@@ -25,7 +25,8 @@ public class RepositoryGetTests : RepositoryBaseTests
         // Assert
         expected.Should().NotBeNull();
         expected.Count().Should().Be(posts.Count);
-        posts.All(p => expected.Contains(p)).Should().BeTrue();
+        var expectedIds = expected.Select(e => e.Id).ToArray();
+        posts.All(p => expectedIds.Contains(p.Id)).Should().BeTrue();
     }
 
     /// <summary>

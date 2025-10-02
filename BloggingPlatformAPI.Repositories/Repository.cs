@@ -141,7 +141,10 @@ public class Repository : IRepository
     /// <returns></returns>
     public async Task<IEnumerable<Post>> GetAll()
     {
-        var posts = await _dbContext.Posts.Where(p => p.IsDeleted == false).ToListAsync();
+        var posts = await _dbContext.Posts
+            .Where(p => p.IsDeleted == false)
+            .AsNoTracking()
+            .ToListAsync();
         return posts;
     }
 
@@ -160,7 +163,9 @@ public class Repository : IRepository
             throw new ArgumentException("The id must be great than 0.");
         }
 
-        Post? post = await _dbContext.Posts.FirstOrDefaultAsync(p => p.Id == id);
+        Post? post = await _dbContext.Posts
+            .AsNoTracking()
+            .FirstOrDefaultAsync(p => p.Id == id);
 
         if (post is null)
         {
@@ -189,6 +194,7 @@ public class Repository : IRepository
         }
 
         IEnumerable<Post> posts = await _dbContext.Posts
+            .AsNoTracking()
             .Where(p => p.IsDeleted == false)
             .Where(p => string.IsNullOrEmpty(term) || (p.Title.Contains(term) || p.Content.Contains(term) || p.Tags.Contains(term)))
             .ToListAsync();
