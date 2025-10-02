@@ -1,0 +1,52 @@
+### Configure a variable for the web service base address.
+@base_address = https://localhost:5021/blog
+
+### Insert a new post.
+POST {{base_address}}
+Content-Type: application/json
+
+{
+	"Title": "Second Test Post",
+  "Content": "This is The second test post!",
+  "Category": "Technology",
+  "Tags":
+  [ 
+    "csharp", 
+    "postgresql", 
+    "efcore"
+  ]
+}
+
+### New Id
+@new_id = 15
+
+### Get all posts.
+GET {{base_address}}
+
+### Get a post by Id.
+GET {{base_address}}/{{new_id}}
+
+### Get a post by term.
+GET {{base_address}}/?term=first
+
+### Update a post.
+PUT {{base_address}}/{{new_id}}
+Content-Type: application/json
+
+{
+	"Title": "Updated the First Test Post",
+  "Content": "This is The first test post!",
+  "Category": "Technology",
+  "Tags":
+  [ 
+    "csharp", 
+    "postgresql", 
+    "efcore"
+  ]
+}
+
+### Delete a post.
+DELETE {{base_address}}/{{new_id}}
+
+### Get all posts.
+GET {{base_address}}

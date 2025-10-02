@@ -34,14 +34,13 @@ public class Post
     public DateTimeOffset UpdatedAt { get; set; }
 
     // Дата удаления
-    public DateTimeOffset DeletedAt { get; set; }
+    public DateTimeOffset? DeletedAt { get; set; }
 
     // Конструктор по умолчанию
     public Post()
     {
         CreatedAt = DateTimeOffset.UtcNow;
         UpdatedAt = DateTimeOffset.UtcNow;
-        DeletedAt = DateTimeOffset.UtcNow;
     }
 
     // Перегрузка конструктора
@@ -53,7 +52,6 @@ public class Post
         Tags = tags;
         CreatedAt = DateTimeOffset.UtcNow;
         UpdatedAt = DateTimeOffset.UtcNow;
-        DeletedAt = DateTimeOffset.UtcNow;
     }
 }
 

@@ -16,16 +16,23 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
 	ProjectSection(SolutionItems) = preProject
 		Directory.Packages.props = Directory.Packages.props
+		postgres\postgres-password.txt = postgres\postgres-password.txt
 		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BloggingPlatformAPI.Repositories", "BloggingPlatformAPI.Repositories\BloggingPlatformAPI.Repositories.csproj", "{BC6EC42C-F416-4631-9AD1-87180B52A510}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Https", "Https", "{282F4399-1911-48EC-B20B-8AD36FE0AFA2}"
+	ProjectSection(SolutionItems) = preProject
+		Https\MinimalApi.http = Https\MinimalApi.http
+		Https\WebApi.http = Https\WebApi.http
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "postgres", "postgres", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 	ProjectSection(SolutionItems) = preProject
-		docker-compose.yml = docker-compose.yml
-		postgres-password.txt = postgres-password.txt
+		postgres\docker-compose.yml = postgres\docker-compose.yml
+		postgres\postgres-password.txt = postgres\postgres-password.txt
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BloggingPlatformAPI.Repositories", "BloggingPlatformAPI.Repositories\BloggingPlatformAPI.Repositories.csproj", "{BC6EC42C-F416-4631-9AD1-87180B52A510}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,6 +69,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{282F4399-1911-48EC-B20B-8AD36FE0AFA2} = {8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}
 		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

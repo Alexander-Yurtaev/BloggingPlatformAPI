@@ -19,6 +19,9 @@ namespace BloggingPlatformAPI.WebApi
             builder.Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+
+                var filePath = Path.Combine(System.AppContext.BaseDirectory, "MyApi.xml");
+                c.IncludeXmlComments(filePath);
             });
 
             builder.Services.AddBloggingPlatformDataContext();

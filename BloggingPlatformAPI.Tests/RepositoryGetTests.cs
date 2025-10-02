@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using BloggingPlatformAPI.Repositories.Exceptions;
 using FluentAssertions;
 
 namespace BloggingPlatformAPI.Tests;
@@ -41,6 +42,27 @@ public class RepositoryGetTests : RepositoryBaseTests
         // Assert
         expected.Should().NotBeNull();
         expected.Count().Should().Be(0);
+    }
+
+    /// <summary>
+    /// Проверка возврата постов без флага IsDeleted
+    /// </summary>
+    [Fact]
+    public async Task GetAll_ReturnsNotDeletedPosts()
+    {
+        // Arrange
+        var posts = CreatePosts(5);
+        posts[2].IsDeleted = true;
+
+        await DbContext.Posts.AddRangeAsync(posts);
+        await DbContext.SaveChangesAsync();
+
+        // Act
+        var expected = await Repository.GetAll();
+
+        // Assert
+        expected.Should().NotBeNull();
+        expected.Count().Should().Be(posts.Count - 1);
     }
 
     /// <summary>
@@ -126,7 +148,26 @@ public class RepositoryGetTests : RepositoryBaseTests
     }
 
     /// <summary>
-    /// Проверка поиска поста по термину в заголовке
+    /// Проверка получения удаленного поста
+    /// </summary>
+    [Fact]
+    public async Task Get_DeletedPost_ThrowsException()
+    {
+        // Arrange
+        var post = CreatePost(CreatePostType.Simple);
+        post.IsDeleted = true;
+        var id = (await DbContext.Posts.AddAsync(post)).Entity.Id;
+        await DbContext.SaveChangesAsync();
+
+        // Act & Assert
+        await Assert.ThrowsAsync<ConflictException>(async () =>
+        {
+            await Repository.GetById(id);
+        });
+    }
+
+    /// <summary>
+    /// Проверка поиска постов по термину в заголовке
     /// </summary>
     [Theory]
     [InlineData($"#1")]
@@ -149,7 +190,29 @@ public class RepositoryGetTests : RepositoryBaseTests
     }
 
     /// <summary>
-    /// Проверка поиска поста по термину в контенте
+    /// Проверка поиска неудаленных постов по термину в заголовке
+    /// </summary>
+    [Fact]
+    public async Task Get_NotDeleted_WithSearchTerm_ReturnsMatchingPost()
+    {
+        // Arrange
+        var posts = CreatePosts(3);
+        var deletedPost = posts[1];
+        deletedPost.IsDeleted = true;
+        await DbContext.Posts.AddRangeAsync(posts);
+        await DbContext.SaveChangesAsync();
+
+        // Act
+        var expected = await Repository.Find("#");
+
+        // Assert
+        expected.Should().NotBeNull();
+        expected.Count().Should().Be(posts.Count - 1);
+        expected.First().Title.Should().Contain("#");
+    }
+
+    /// <summary>
+    /// Проверка поиска постов по термину в контенте
     /// </summary>
     [Theory]
     [InlineData($"#1")]
@@ -172,7 +235,7 @@ public class RepositoryGetTests : RepositoryBaseTests
     }
 
     /// <summary>
-    /// Проверка поиска поста по термину в тегах
+    /// Проверка поиска постов по термину в тегах
     /// </summary>
     [Theory]
     [InlineData($"#1")]

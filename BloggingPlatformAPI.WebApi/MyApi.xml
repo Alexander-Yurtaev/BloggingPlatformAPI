@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BloggingPlatformAPI.WebApi</name>
+    </assembly>
+    <members>
+        <member name="T:BloggingPlatformAPI.WebApi.Controllers.BlogController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:BloggingPlatformAPI.WebApi.Controllers.BlogController.Create(BloggingPlatformAPI.EntityModels.Post)">
+            <summary>
+            Create a new post
+            </summary>
+            <param name="post"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BloggingPlatformAPI.WebApi.Controllers.BlogController.Update(System.Int32,BloggingPlatformAPI.EntityModels.Post)">
+            <summary>
+            Update a post
+            </summary>
+            <param name="id"></param>
+            <param name="post"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BloggingPlatformAPI.WebApi.Controllers.BlogController.Delete(System.Int32)">
+            <summary>
+            Delete a post
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BloggingPlatformAPI.WebApi.Controllers.BlogController.GetAll">
+            <summary>
+            Get all posts
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BloggingPlatformAPI.WebApi.Controllers.BlogController.GetById(System.Int32)">
+            <summary>
+            Get a post by Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BloggingPlatformAPI.WebApi.Controllers.BlogController.Find(System.String)">
+            <summary>
+            Get posts by term
+            </summary>
+            <param name="term"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

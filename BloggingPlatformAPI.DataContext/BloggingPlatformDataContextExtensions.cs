@@ -15,7 +15,7 @@ public static class BloggingPlatformDataContextExtensions
 
             builder.Host = "localhost"; // или IP-адрес
             builder.Port = 5432; // порт по умолчанию для PostgreSQL
-            builder.Database = "blogpost_database";
+            builder.Database = "blog_platform";
             builder.Username = Environment.GetEnvironmentVariable("POSTGRES_USER");
             builder.Password = Environment.GetEnvironmentVariable("POSTGRES_PASSWORD");
             builder.CommandTimeout = 30; // таймаут выполнения команд

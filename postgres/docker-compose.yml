@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:latest
+    ports:
+      - "5432:5432"  # Проброс порта
+    environment:
+      POSTGRES_USER: postgres  # Имя пользователя
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres-password  # Ссылка на секрет
+      POSTGRES_DB: blog_platform  # Имя базы данных
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Персистентное хранилище
+    secrets:
+      - postgres-password
+    restart: always  # Автоматический перезапуск
+
+secrets:
+  postgres-password:
+    file: ./postgres-password.txt  # Файл с паролем
+
+volumes:
+  postgres_data:

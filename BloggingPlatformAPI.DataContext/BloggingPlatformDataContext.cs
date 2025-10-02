@@ -23,14 +23,15 @@ public class BloggingPlatformDataContext : DbContext
     {
         if (!optionsBuilder.IsConfigured)
         {
-            NpgsqlConnectionStringBuilder builder = new();
-
-            builder.Host = "localhost"; // или IP-адрес
-            builder.Port = 5432; // порт по умолчанию для PostgreSQL
-            builder.Database = "blog_platform";
-            builder.Username = Environment.GetEnvironmentVariable("POSTGRES_USER");
-            builder.Password = Environment.GetEnvironmentVariable("POSTGRES_PASSWORD");
-            builder.CommandTimeout = 30; // таймаут выполнения команд
+            NpgsqlConnectionStringBuilder builder = new()
+            {
+                Host = "localhost", // или IP-адрес
+                Port = 5432, // порт по умолчанию для PostgreSQL
+                Database = "blog_platform",
+                Username = Environment.GetEnvironmentVariable("POSTGRES_USER"),
+                Password = Environment.GetEnvironmentVariable("POSTGRES_PASSWORD"),
+                CommandTimeout = 30 // таймаут выполнения команд
+            };
 
             optionsBuilder.UseNpgsql(builder.ConnectionString);
         }
@@ -53,10 +54,17 @@ public class BloggingPlatformDataContext : DbContext
             entityEntry.Entity.UpdatedAt = now;
         }
 
-        // Обновляем UpdatedAt для измененных записей
+        // Обновляем UpdatedAt для измененных записей или DeletedAt для удаленных записей
         foreach (EntityEntry<Post> entityEntry in ChangeTracker.Entries<Post>().Where(p => p.State == EntityState.Modified))
         {
-            entityEntry.Entity.UpdatedAt = now;
+            if (entityEntry.Entity is { IsDeleted: true, DeletedAt: null })
+            {
+                entityEntry.Entity.DeletedAt = now;
+            }
+            else
+            {
+                entityEntry.Entity.UpdatedAt = now;
+            }
         }
     }
 }

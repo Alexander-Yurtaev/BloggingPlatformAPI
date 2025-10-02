@@ -15,6 +15,12 @@ public class Repository : IRepository
         _dbContext = dbContext;
     }
 
+    /// <summary>
+    /// Create a new post.
+    /// </summary>
+    /// <param name="post"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
     public async Task<Post> Create(Post post)
     {
         ArgumentNullException.ThrowIfNull(post);
@@ -44,6 +50,15 @@ public class Repository : IRepository
         return post;
     }
 
+    /// <summary>
+    /// Update a post.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="updatedPost"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="InvalidDataException"></exception>
+    /// <exception cref="NoNullAllowedException"></exception>
     public async Task<Post> Update(int id, Post updatedPost)
     {
         ArgumentNullException.ThrowIfNull(updatedPost);
@@ -56,7 +71,12 @@ public class Repository : IRepository
         var post = await _dbContext.Posts.FirstOrDefaultAsync(p => p.Id == id);
         if (post is null)
         {
-            throw new ArgumentException($"Post with Id = {id} not found.");
+            throw new NotFoundException($"Post with Id = {id} not found.");
+        }
+
+        if (post.IsDeleted)
+        {
+            throw new ConflictException($"Post with Id={id} has been deleted.");
         }
 
         if (string.IsNullOrEmpty(updatedPost.Title))
@@ -76,12 +96,23 @@ public class Repository : IRepository
 
         post.Title = updatedPost.Title;
         post.Content = updatedPost.Content;
+        post.Category = updatedPost.Category;
+        post.Tags = updatedPost.Tags;
+        post.IsDeleted = updatedPost.IsDeleted;
 
         await _dbContext.SaveChangesAsync();
 
         return post;
     }
 
+    /// <summary>
+    /// Delete a post.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="NotFoundException"></exception>
+    /// <exception cref="ConflictException"></exception>
     public async Task Delete(int id)
     {
         if (id <= 0)
@@ -104,12 +135,24 @@ public class Repository : IRepository
         await _dbContext.SaveChangesAsync();
     }
 
+    /// <summary>
+    /// Get all posts with IsDelete=false.
+    /// </summary>
+    /// <returns></returns>
     public async Task<IEnumerable<Post>> GetAll()
     {
-        var posts = await _dbContext.Posts.ToListAsync();
+        var posts = await _dbContext.Posts.Where(p => p.IsDeleted == false).ToListAsync();
         return posts;
     }
 
+    /// <summary>
+    /// Get a post by Id with IsDelete=false.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="NotFoundException"></exception>
+    /// <exception cref="ConflictException"></exception>
     public async Task<Post> GetById(int id)
     {
         if (id <= 0)
@@ -117,10 +160,27 @@ public class Repository : IRepository
             throw new ArgumentException("The id must be great than 0.");
         }
 
-        Post post = await _dbContext.Posts.FirstAsync(p => p.Id == id);
+        Post? post = await _dbContext.Posts.FirstOrDefaultAsync(p => p.Id == id);
+
+        if (post is null)
+        {
+            throw new NotFoundException($"Post with Id={id} not found.");
+        }
+
+        if (post.IsDeleted)
+        {
+            throw new ConflictException($"Post with Id={id} was deleted.");
+        }
+
         return post;
     }
 
+    /// <summary>
+    /// Find posts by term.
+    /// </summary>
+    /// <param name="term"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public async Task<IEnumerable<Post>> Find(string term)
     {
         if (string.IsNullOrEmpty(term))
@@ -129,8 +189,10 @@ public class Repository : IRepository
         }
 
         IEnumerable<Post> posts = await _dbContext.Posts
+            .Where(p => p.IsDeleted == false)
             .Where(p => string.IsNullOrEmpty(term) || (p.Title.Contains(term) || p.Content.Contains(term) || p.Tags.Contains(term)))
             .ToListAsync();
+
         return posts;
     }
 }
